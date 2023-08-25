@@ -60,6 +60,12 @@ SHAPE_COLORS = [
 score = 0
 bonus = 10
 
+# 創建視窗
+PythonTetris = pygame.display.set_mode((SCREEN_HEIGHT, SCREEN_WIDTH))
+pygame.display.set_caption(TITLE_NAME)
+PythonTetris.fill(RED)
+
+
 # 產生方塊
 def generate_shape():
     shape_idx = random.randint(0, len(SHAPES) - 1)
@@ -82,12 +88,14 @@ def is_collision(board, shape, offset_x, offset_y):
 
 # 繪製整個畫面
 def shape_fall(bgm):
-    global can_move, x, y, board, current_shape, current_color
+    global can_move, x, y, board, current_shape, current_color, drop_Applus
 
     # 沒有碰撞，則當前方塊往下移動一步
     if not is_collision(board, current_shape, x, y + 1):
         y += 1
     else:
+        # 重製
+        drop_Applus = 0
         # 方塊到底部了，將它固定在棋盤上
         for row in range(len(current_shape)):
             for col in range(len(current_shape[row])):
@@ -139,13 +147,14 @@ def draw_shape(screen, shape, x, y, color):
 # 主程式
 def main():
     # 初始化配置
-    global move_direction, isRotate, x, y, current_shape, current_color, can_move, board # 全域變數
+    global move_direction, isRotate, x, y, current_shape, current_color, can_move, board, drop_Applus # 全域變數
     move_direction = None
     isRotate = False
     x, y = 3, 0
     current_shape, current_color = generate_shape()
     can_move = True
     board = [[BLACK for _ in range(BOARD_WIDTH)] for _ in range(BOARD_HEIGHT)]
+    drop_Applus = 0
 
     # 初始化
     pygame.init() # 初始化Pygame程序 
@@ -176,6 +185,7 @@ def main():
                     move_direction = 1
                 elif event.key == pygame.K_DOWN:
                     drop_counter = (SPEED_SQUARE - 1)  # 立即將計數器設置為SPEED_SQUARE - 1，讓方塊下次立即下落一格
+                    drop_Applus += 3 if drop_Applus == 0 else 50
                 elif event.key == pygame.K_UP:
                     isRotate = True
 
@@ -193,7 +203,7 @@ def main():
         isRotate = False
 
         # 使用計數器控制方塊下落速度
-        drop_counter = drop_counter + 1
+        drop_counter = drop_counter + 1 + drop_Applus
         if drop_counter >= SPEED_SQUARE:  # 方塊達到秒數，立刻下落一次
             shape_fall(clear_bgm)
             drop_counter = 0  # 重置計數器
@@ -219,6 +229,7 @@ def main():
     background_music.stop()
     pygame.quit()    
     sys.exit()  # 使用sys.exit()終止程式
+
 
 if __name__ == "__main__":
     main()

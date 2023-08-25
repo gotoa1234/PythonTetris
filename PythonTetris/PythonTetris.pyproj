@@ -4,13 +4,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>53daa67d-d202-4790-8e53-90f3607d2fdf</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>PythonTetris.py</StartupFile>
+    <StartupFile>MainWindow.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>PythonTetris</Name>
     <RootNamespace>PythonTetris</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="MainWindow.py" />
     <Compile Include="Method\scoreboard.py" />
     <Compile Include="PythonTetris.py" />
   </ItemGroup>
