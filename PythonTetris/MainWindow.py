@@ -53,6 +53,10 @@ def main():
             # 底圖
             MainWindow.fill(WHITE)
 
+            # ICON
+            # icon_image = pygame.image.load("Assest/my.ico") 
+            # pygame.display.set_icon(icon_image)
+
             # 繪製按鈕
             draw_start_button()
             draw_exit_button()
