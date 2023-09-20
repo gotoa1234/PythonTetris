@@ -23,12 +23,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="MainWindow.py" />
+    <Compile Include="Method\PythonTetrisMethod.py" />
     <Compile Include="Method\scoreboard.py" />
+    <Compile Include="Module\ColorDefine.py" />
+    <Compile Include="Module\PythonTetrisWindowDefine.py" />
+    <Compile Include="Module\WindowDefine.py" />
     <Compile Include="PythonTetris.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Method\" />
     <Folder Include="Assest\" />
+    <Folder Include="Module\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assest\Clearlaser.mp3" />

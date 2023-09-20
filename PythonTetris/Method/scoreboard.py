@@ -1,13 +1,12 @@
 import pygame
-
-WHITE = (255, 255, 255)
+from Module.ColorDefine import WHITE
 
 def draw_score(screen, score):
    font = pygame.font.Font(None, 24)
    score_text = font.render(f"Score:{score}", True, WHITE)
    screen.blit(score_text, (10, 10))
 
-# ­pºâ¤À¼Æ ·í«e°ª«× * 10
+# è¨ˆç®—åˆ†æ•¸ ç•¶å‰é«˜åº¦ * 10
 def CaculateScore(row, board_height, score, bonus):
     score += (board_height - row) * 10 + bonus;
     bonus += 5
