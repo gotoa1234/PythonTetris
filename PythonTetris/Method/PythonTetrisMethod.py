@@ -1,6 +1,7 @@
 import pygame
 import random
-from Module.PythonTetrisWindowDefine import  BOARD_WIDTH, BOARD_HEIGHT, BLOCK_SIZE, SHAPES, SHAPE_COLORS, SCORE, BONUS
+from Module.PythonTetrisWindowDefine import BOARD_WIDTH, BOARD_HEIGHT, BLOCK_SIZE, SHAPES, SHAPE_COLORS, SCORE, BONUS
+from Method.scoreboard import draw_score, CaculateScore 
 from Module.ColorDefine import BLACK, GREY11
 
 # 判斷是否碰撞 True:表示碰撞 False:表示合法
@@ -37,7 +38,7 @@ def DrawShape(screen, shape, x, y, color):
                 DrawBlock(screen, x + col, y + row, color)
 
 # 繪製整個畫面
-def ShapeFall(bgm, can_move, x, y, board, current_shape, current_color, drop_Applus):
+def ShapeFall(bgm, can_move, x, y, board, current_shape, current_color, drop_Applus, score, bonus):
 
     # 沒有碰撞，則當前方塊往下移動一步
     if not IsCollision(board, current_shape, x, y + 1):
@@ -51,18 +52,17 @@ def ShapeFall(bgm, can_move, x, y, board, current_shape, current_color, drop_App
                 if current_shape[row][col] == 1:
                     board[y + row][x + col] = current_color
         # 消除滿行
-        RemoveFullRows(board, bgm)
+        score = RemoveFullRows(board, bgm, score, bonus)
         # 產生新的方塊
         x, y = 3, 0
         current_shape, current_color = GenerateShape()
         if IsCollision(board, current_shape, x, y):
             can_move = False
 
-    return can_move, x, y, board, current_shape, current_color, drop_Applus
+    return can_move, x, y, board, current_shape, current_color, drop_Applus, score, bonus
 
 # 消除方塊的邏輯
-def RemoveFullRows(board, bgm):
-    global score, bonus
+def RemoveFullRows(board, bgm, score, bonus):
     full_rows = []
     row = len(board) - 1
     isDelete = False        
@@ -77,8 +77,10 @@ def RemoveFullRows(board, bgm):
        bgm.play(1)
        for delRow in full_rows:
            del board[delRow]
-           score = CaculateScore(delRow, BOARD_HEIGHT, score, bonus)
+           score, bonus = CaculateScore(delRow, BOARD_HEIGHT, score, bonus)
 
     # 在頂部補上新的空行，數量與刪除行數相等
     for _ in range(len(full_rows)):
         board.insert(0, [BLACK for _ in range(BOARD_WIDTH)])
+
+    return score

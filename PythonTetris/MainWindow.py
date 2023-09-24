@@ -5,7 +5,7 @@ from Module.WindowDefine import WINDOWS_SIZE, WINDOWS_TITLE, START_BUTTON, EXIT_
 pygame.init()
 
 # 創建主視窗
-MainWindow = pygame.display.set_mode(WINDOWS_SIZE)
+MainWindow = pygame.display.set_mode(WINDOWS_SIZE, pygame.DOUBLEBUF)
 pygame.display.set_caption(WINDOWS_TITLE)
 
 # 開始遊戲按鈕
@@ -15,14 +15,14 @@ button_exit_rect = pygame.Rect(EXIT_BUTTON)
 
 def draw_start_button():
     # 繪製按鈕
-    pygame.draw.rect(MainWindow, BLACK, button_start_rect)
+    pygame.draw.rect(MainWindow, WHITE, button_start_rect)
 
     # 創建字體物件
     font = pygame.font.Font(None, 30)
     font = pygame.font.SysFont(DEFAUT_FONT, 16)
 
     # 創建文字物件
-    text = font.render("開始遊戲！", True, WHITE)
+    text = font.render("開始遊戲！", True, BLACK)
 
     # 繪製文字在按鈕上
     text_rect = text.get_rect(center=button_start_rect.center)
@@ -30,20 +30,23 @@ def draw_start_button():
 
 def draw_exit_button():    
     # 繪製按鈕
-    pygame.draw.rect(MainWindow, BLACK, button_exit_rect)
+    pygame.draw.rect(MainWindow, WHITE, button_exit_rect)
 
     # 創建字體物件
     font = pygame.font.Font(None, 30)
     font = pygame.font.SysFont(DEFAUT_FONT, 16)
 
     # 創建文字物件
-    text = font.render("離開遊戲！", True, WHITE)
+    text = font.render("離開遊戲！", True, BLACK)
 
     # 繪製文字在按鈕上
     text_rect = text.get_rect(center=button_exit_rect.center)
     MainWindow.blit(text, text_rect)
 
 def main():
+    clock = pygame.time.Clock()
+    background = pygame.image.load("Assest/background.png")
+    MainWindow.blit(background, (0, 0))
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -51,11 +54,13 @@ def main():
                 sys.exit()
 
             # 底圖
-            MainWindow.fill(WHITE)
+            #MainWindow.fill(WHITE)
+            pygame.display.update()
+            clock.tick(60)
 
             # ICON
-            # icon_image = pygame.image.load("Assest/my.ico") 
-            # pygame.display.set_icon(icon_image)
+            icon_image = pygame.image.load("Assest/my.ico") 
+            pygame.display.set_icon(icon_image)
 
             # 繪製按鈕
             draw_start_button()

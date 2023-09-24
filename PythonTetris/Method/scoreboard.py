@@ -10,4 +10,4 @@ def draw_score(screen, score):
 def CaculateScore(row, board_height, score, bonus):
     score += (board_height - row) * 10 + bonus;
     bonus += 5
-    return score
+    return score, bonus

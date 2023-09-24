@@ -1,5 +1,7 @@
 import pygame
 import sys
+import tkinter as tk
+from tkinter import messagebox
 from Method.scoreboard import draw_score, CaculateScore   # 引入scoreboard.py中的函式
 from Method.PythonTetrisMethod import IsCollision, GenerateShape, DrawBlock, DrawShape, ShapeFall
 from Module.PythonTetrisWindowDefine import TITLE_NAME, SPEED_SCREEN_UPDATE, SPEED_SQUARE, SCREEN_WIDTH, SCREEN_HEIGHT, BOARD_WIDTH, BOARD_HEIGHT, BLOCK_SIZE, SHAPES, SHAPE_COLORS, SCORE, BONUS, BACKGROUND_MUSIC_PATH, BACKGROUND_SOUND_EFFECTS_CLEAR_PATH
@@ -21,6 +23,8 @@ def main():
     can_move = True
     board = [[BLACK for _ in range(BOARD_WIDTH)] for _ in range(BOARD_HEIGHT)]
     drop_Applus = 0
+    score = 0
+    bonus = 0
 
     # 初始化
     pygame.init() # 初始化Pygame程序 
@@ -33,6 +37,7 @@ def main():
     
     # 創建遊戲視窗
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  
+
     # 設置視窗標題
     pygame.display.set_caption(TITLE_NAME)  
 
@@ -71,7 +76,7 @@ def main():
         # 使用計數器控制方塊下落速度
         drop_counter = drop_counter + 1 + drop_Applus
         if drop_counter >= SPEED_SQUARE:  # 方塊達到秒數，立刻下落一次
-            can_move, x, y, board, current_shape, current_color, drop_Applus = ShapeFall(clear_bgm, can_move, x, y, board, current_shape, current_color, drop_Applus)
+            can_move, x, y, board, current_shape, current_color, drop_Applus, score, bonus = ShapeFall(clear_bgm, can_move, x, y, board, current_shape, current_color, drop_Applus, score, bonus)
             drop_counter = 0  # 重置計數器
 
         # 繪製遊戲畫面
@@ -83,7 +88,7 @@ def main():
         DrawShape(screen, current_shape, x, y, current_color)
 
         # 新增繪製記分板的呼叫                
-        draw_score(screen, SCORE)
+        draw_score(screen, score)
 
         pygame.display.flip()
         clock.tick(SPEED_SCREEN_UPDATE)  # 設置遊戲迴圈的更新頻率為每秒60次
@@ -94,6 +99,7 @@ def main():
     # 當遊戲結束時停止音樂
     background_music.stop()
     pygame.quit()    
+    messagebox.showinfo('遊戲結束', '得分總計：'+ str(score))   
     sys.exit()  # 使用sys.exit()終止程式
 
 if __name__ == "__main__":
